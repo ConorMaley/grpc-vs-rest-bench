@@ -1,0 +1,6 @@
+node_modules/
+ts/dist/
+bin/
+obj/
+results/*.json
+results/*.md

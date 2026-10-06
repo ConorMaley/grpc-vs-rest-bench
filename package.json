@@ -1,0 +1,15 @@
+{
+  "name": "grpc-vs-rest-bench",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix ts install && npm --prefix ts run build && dotnet build dotnet/Bench.slnx -c Release",
+    "bench": "tsx runner/run.ts",
+    "smoke": "tsx runner/run.ts --preset smoke",
+    "report": "tsx runner/report.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
