@@ -4,18 +4,10 @@ import * as os from "node:os";
 import * as path from "node:path";
 import { parseArgs } from "node:util";
 import { renderReport, Row } from "./report";
+import { SCENARIOS } from "./scenarios";
 
 const ROOT = path.resolve(__dirname, "..");
 const DOTNET = process.env.DOTNET ?? "dotnet";
-
-const SCENARIOS: Record<string, { scenario: string; items?: number; count?: number }> = {
-  echo: { scenario: "echo" },
-  "getorder-small": { scenario: "getorder", items: 10 },
-  "getorder-large": { scenario: "getorder", items: 1000 },
-  listorders: { scenario: "listorders", count: 1000, items: 3 },
-  "createorder-small": { scenario: "createorder", items: 10 },
-  "createorder-large": { scenario: "createorder", items: 1000 },
-};
 
 const PRESETS: Record<string, any> = {
   smoke: { scenarios: "echo,getorder-large", concurrency: "1,10", duration: 3, warmup: 1, runs: 1 },

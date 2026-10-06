@@ -14,7 +14,8 @@ dotnet/Bench.Client      load harness (HttpClient, Grpc.Net.Client, HdrHistogram
 ts/src/server.ts         Fastify (1.1 + h2c) and @grpc/grpc-js                          default base 5200
 ts/src/client.ts         load harness (undici, node:http2, @grpc/grpc-js, hdr-histogram-js)
 runner/                  orchestrator + markdown report
-results/                 results-<timestamp>.json / .md (git-ignored)
+runner/micro.ts          serialization micro-benchmark + latency-share report
+results/                 results-*.json/.md and micro-*.json/.md (git-ignored)
 ```
 
 ## Prerequisites
@@ -44,6 +45,13 @@ Useful flags (all optional, they override the preset):
 | `--mode open --rate 2000` | open loop at a fixed req/s (latency measured from *scheduled* send time) |
 | `--connections 4` | HTTP/2 + gRPC connections per client (default 1) |
 
+Measure how much of the latency is serialization (JSON vs protobuf), in isolation and as a share of the
+end-to-end c=1 p50 from the latest `results-*.json`:
+
+```sh
+npm run micro                                   # or: npm run micro -- --results results/results-<stamp>.json
+```
+
 Re-render a report: `npm run report -- results/results-<stamp>.json`.
 
 Run one client by hand (both clients take identical flags and print one JSON line):
@@ -58,7 +66,7 @@ node ts/dist/client.js --protocol grpc --scenario getorder --items 1000 --concur
 | name | operation | payload |
 |---|---|---|
 | `echo` | `POST /echo` / `Echo` | tiny message, measures per-call overhead |
-| `getorder-small` / `-large` | `GET /orders/{id}?items=N` / `GetOrder` | Order with 10 / 1000 line items (~1 KB / ~120 KB JSON) |
+| `getorder-small` / `-large` | `GET /orders/{id}?items=N` / `GetOrder` | Order with 10 / 1000 line items (~1 KB / ~72 KB JSON) |
 | `listorders` | `GET /orders?count=1000&items=3` / `ListOrders` | 1000 orders in one response |
 | `createorder-small` / `-large` | `POST /orders` / `CreateOrder` | client uploads an Order, server replies with a tiny ack |
 

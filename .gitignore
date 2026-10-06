@@ -4,3 +4,4 @@ bin/
 obj/
 results/*.json
 results/*.md
+results/micro-*

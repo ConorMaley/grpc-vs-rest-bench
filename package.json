@@ -5,7 +5,8 @@
     "build": "npm --prefix ts install && npm --prefix ts run build && dotnet build dotnet/Bench.slnx -c Release",
     "bench": "tsx runner/run.ts",
     "smoke": "tsx runner/run.ts --preset smoke",
-    "report": "tsx runner/report.ts"
+    "report": "tsx runner/report.ts",
+    "micro": "tsx runner/micro.ts"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",

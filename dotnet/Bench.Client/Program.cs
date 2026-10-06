@@ -10,6 +10,8 @@ using HdrHistogram;
 var opt = ParseArgs(args);
 string Get(string k, string d) => opt.TryGetValue(k, out var v) ? v : d;
 
+if (opt.ContainsKey("micro")) return Micro.Run(opt);
+
 var protocol = Get("protocol", "grpc");   // rest1 | rest2 | grpc
 var scenario = Get("scenario", "echo");   // echo | getorder | listorders | createorder
 var mode = Get("mode", "closed");         // closed | open
